@@ -1,15 +1,16 @@
-const Post = require("../models/Post");
+import Post from "../models/Post.js";
 
-exports.getPosts = async (req, res) => {
+export const getPosts = async (req, res) => {
   try {
     const posts = await Post.find();
-    res.json(posts);
+    console.log(posts);
+    res.status(200).json(posts);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-exports.createPost = async (req, res) => {
+export const createPost = async (req, res) => {
   try {
     const newPost = new Post(req.body);
     await newPost.save();
@@ -19,7 +20,7 @@ exports.createPost = async (req, res) => {
   }
 };
 
-exports.updatePost = async (req, res) => {
+export const updatePost = async (req, res) => {
   try {
     const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
@@ -30,7 +31,7 @@ exports.updatePost = async (req, res) => {
   }
 };
 
-exports.deletePost = async (req, res) => {
+export const deletePost = async (req, res) => {
   try {
     await Post.findByIdAndDelete(req.params.id);
     res.json({ message: "Post deleted" });
